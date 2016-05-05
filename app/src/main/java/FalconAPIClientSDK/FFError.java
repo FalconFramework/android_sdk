@@ -6,6 +6,7 @@ package FalconAPIClientSDK;
 public class FFError {
 
     private Integer cod=0;
+
     private String message="";
 
     /**
@@ -16,8 +17,24 @@ public class FFError {
      *
      * @return      the error description message
      */
-    private String FFErrorDescriptionMessage(){
-        return "Error " + cod + ": " + message;
+    public String FFErrorDescriptionMessage(){
+        return "Error " + getCod() + ": " + getMessage();
+    }
+
+    public String getMessage() {
+        return message;
+    }
+
+    public void setMessage(String message) {
+        this.message = message;
+    }
+
+    public Integer getCod() {
+        return cod;
+    }
+
+    public void setCod(Integer cod) {
+        this.cod = cod;
     }
 
 }
