@@ -19,17 +19,18 @@ public class FFAPIClient {
         return ourInstance;
     }
 
+    private FFAPIClient(){
+
+    }
     /**
-     * Returns an Singleton Instance with parametres url and apiKey
+     * Set in Singleton Instance the parametres url and apiKey
      *
      * @param url an api base url for client
      * @param key an api key of client in server
-     * @return  the static instance of this class
      */
-    public FFAPIClient initWithBaseUrlAndApiKey(String url, String key){
+    public FFAPIClient (String url, String key){
         sharedClient().apiBaseUrl = url;
         sharedClient().apiKey = key;
-        return sharedClient();
     }
 
     public String getApiBaseUrl() {
