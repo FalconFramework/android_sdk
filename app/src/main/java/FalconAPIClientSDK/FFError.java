@@ -18,7 +18,7 @@ public class FFError {
      * @return      the error description message
      */
     public String FFErrorDescriptionMessage(){
-        return "Error " + getCod() + ": " + getMessage();
+        return "Falcon Error " + getCod() + ": " + getMessage();
     }
 
     public String getMessage() {

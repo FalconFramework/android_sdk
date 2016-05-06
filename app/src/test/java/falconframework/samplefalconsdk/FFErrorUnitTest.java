@@ -22,6 +22,6 @@ public class FFErrorUnitTest {
 
     @Test
     public void testShouldGetErrorDescriptionMessage() throws Exception {
-        assertEquals("Error 10: Server Internal",error.FFErrorDescriptionMessage());
+        assertEquals("Falcon Error 10: Server Internal",error.FFErrorDescriptionMessage());
     }
 }
