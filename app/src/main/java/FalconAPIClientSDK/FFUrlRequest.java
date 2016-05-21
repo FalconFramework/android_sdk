@@ -21,7 +21,7 @@ public class FFUrlRequest {
         return baseURL + pulizeredResourceName + "/" + id;
     }
 
-    public String getAll(String resourceName) {
+    public String urlForFindAll(String resourceName) {
         return this.buildURL(resourceName);
     }
 }
