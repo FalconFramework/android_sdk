@@ -1,14 +1,24 @@
 package FalconAPIClientSDK;
 
+import android.provider.UserDictionary;
+import android.text.TextUtils;
+import android.util.Log;
+
 import com.loopj.android.http.*;
+
+import org.json.JSONObject;
+
+import Models.User;
 
 public class FFRestAdapter extends FFURLBuilder implements FFAdapter {
 
 
     private AsyncHttpClient asyncHttp;
+    private FFJSONSerializer serializer;
 
-    public FFRestAdapter() {
+    public FFRestAdapter(FFJSONSerializer serializer) {
         this.asyncHttp = new AsyncHttpClient();
+        this.serializer = serializer;
     }
 
     /**
@@ -18,10 +28,21 @@ public class FFRestAdapter extends FFURLBuilder implements FFAdapter {
      * This method performs an HTTP GET request with the id provided as part of the query string.
      */
     @Override
-    public void findRecord(String modelName, String id) {
+    public void findRecord(final String modelName, String id, final Object model) {
         String url = this.buildURL("findRecord", modelName, id);
-        System.out.println(url);
+        final FFRestAdapter self = this;
 
+        this.asyncHttp.get(url, new JsonHttpResponseHandler() {
+            @Override
+            public void onSuccess(JSONObject jsonObject) {
+                self.serializer.serializePayload(jsonObject, model);
+            }
+
+            @Override
+            public void onFailure(int statusCode, Throwable throwable, JSONObject error) {
+                System.out.println(error);
+            }
+        });
 
         // Make GET CALL
     }
@@ -35,28 +56,16 @@ public class FFRestAdapter extends FFURLBuilder implements FFAdapter {
     public void findAll(String modelName) {
         String url = this.buildURL("findAll", modelName);
         System.out.println(url);
-        // Make GET CALL
 
-        this.asyncHttp.get(url, new AsyncHttpResponseHandler() {
-
+        this.asyncHttp.get(url, new JsonHttpResponseHandler() {
             @Override
-            public void onStart() {
-                // called before request is started
+            public void onSuccess(JSONObject jsonObject) {
+                System.out.println(jsonObject);
             }
 
             @Override
-            public void onSuccess(int statusCode, Header[] headers, byte[] response) {
-                // called when response HTTP status is "200 OK"
-            }
-
-            @Override
-            public void onFailure(int statusCode, Header[] headers, byte[] errorResponse, Throwable e) {
-                // called when response HTTP status is "4XX" (eg. 401, 403, 404)
-            }
-
-            @Override
-            public void onRetry(int retryNo) {
-                // called when request is retried
+            public void onFailure(int statusCode, Throwable throwable, JSONObject error) {
+                System.out.println(error);
             }
         });
     }

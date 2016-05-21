@@ -8,7 +8,7 @@ public class FFObject {
 
     public FFObject() {
         this.serializer = new FFJSONSerializer();
-        this.adapter = new FFRestAdapter();
+        this.adapter = new FFRestAdapter(this.serializer);
     }
 
     public String resourceName() {
@@ -20,6 +20,6 @@ public class FFObject {
     }
 
     public void findRecord(String id) {
-        this.adapter.findRecord(this.resourceName(), id);
+        this.adapter.findRecord(this.resourceName(), id, this);
     }
 }

@@ -14,14 +14,16 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         //Set API settings
-        FFAPIClient apiSetting = new FFAPIClient("localhost:3000", "none");
+        FFAPIClient apiSetting = new FFAPIClient("192.168.0.21:3000", "none");
 
         Post post = new Post();
-        post.findAll();
+//        post.findAll();
 
         User user = new User();
+
         user.findAll();
-        user.findRecord("10");
+        user.findRecord("1");
+//        user.findRecord("10");
 //        user.findRecord('1');
 //        user.query('adadadasd');
 //        user.deleteRecord();

@@ -31,7 +31,7 @@ public interface FFAdapter {
      * @param FFResource
      * @param ID
      */
-    void findRecord(String modelName, String id);
+    void findRecord(String modelName, String id, Object model);
 
     /**
      * The `findAll()` method is used to retrieve all records for a given type.
