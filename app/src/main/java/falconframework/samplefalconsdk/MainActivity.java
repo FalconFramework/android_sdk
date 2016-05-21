@@ -13,6 +13,6 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         //Set API settings
-        FFAPIClient apiSetting = new FFAPIClient("http://localhost:3000", "none");
+        FFAPIClient apiSetting = new FFAPIClient("localhost:3000", "none");
     }
 }
