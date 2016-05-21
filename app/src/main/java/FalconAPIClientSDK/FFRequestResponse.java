@@ -5,7 +5,7 @@ import java.util.ArrayList;
 /**
  * Created by luisresende on 05/05/16.
  */
-public interface FFObjectResponse {
+public interface FFRequestResponse {
 
     /**
      * This method is for running a code after operation

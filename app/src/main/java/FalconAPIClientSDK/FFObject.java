@@ -1,15 +1,14 @@
 package FalconAPIClientSDK;
 
-/**
- * Created by luisresende on 04/05/16.
- */
+import com.loopj.android.http.*;
+
 public class FFObject {
     private FFJSONSerializer serializer;
-    private FFUrlRequest adapter;
+    private FFRestAdapter adapter;
 
     public FFObject() {
         this.serializer = new FFJSONSerializer();
-        this.adapter = new FFUrlRequest();
+        this.adapter = new FFRestAdapter();
     }
 
     public String resourceName() {
@@ -17,7 +16,10 @@ public class FFObject {
     }
 
     public void findAll() {
-        String url = this.adapter.urlForFindAll(this.resourceName());
-        System.out.println(url);
+        this.adapter.findAll(this.resourceName());
+    }
+
+    public void findRecord(String id) {
+        this.adapter.findRecord(this.resourceName(), id);
     }
 }

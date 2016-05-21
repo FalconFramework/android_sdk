@@ -5,7 +5,7 @@ package FalconAPIClientSDK;
  */
 public class FFAPIClient {
 
-    private  String apiBaseUrl="";
+    private  String host="";
     private  String apiKey = "";
 
     private static FFAPIClient ourInstance = new FFAPIClient();
@@ -29,16 +29,16 @@ public class FFAPIClient {
      * @param key an api key of client in server
      */
     public FFAPIClient (String url, String key){
-        sharedClient().apiBaseUrl = this.normalizeNakedURL(url);
+        sharedClient().host = this.normalizeNakedURL(url);
         sharedClient().apiKey = key;
     }
 
-    public String getApiBaseUrl() {
-        return apiBaseUrl;
+    public String getHost() {
+        return host;
     }
 
-    public void setApiBaseUrl(String apiBaseUrl) {
-        this.apiBaseUrl = apiBaseUrl;
+    public void setHost(String apiBaseUrl) {
+        this.host = apiBaseUrl;
     }
 
     public String getApiKey() {
@@ -50,7 +50,7 @@ public class FFAPIClient {
     }
 
     private String normalizeNakedURL(String nakedURL) {
-        return "http://" + nakedURL + '/';
+        return "http://" + nakedURL;
     }
 
 }
