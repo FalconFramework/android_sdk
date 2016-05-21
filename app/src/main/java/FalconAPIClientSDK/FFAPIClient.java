@@ -29,7 +29,7 @@ public class FFAPIClient {
      * @param key an api key of client in server
      */
     public FFAPIClient (String url, String key){
-        sharedClient().apiBaseUrl = url;
+        sharedClient().apiBaseUrl = this.normalizeNakedURL(url);
         sharedClient().apiKey = key;
     }
 
@@ -47,6 +47,10 @@ public class FFAPIClient {
 
     public void setApiKey(String apiKey) {
         this.apiKey = apiKey;
+    }
+
+    private String normalizeNakedURL(String nakedURL) {
+        return "http://" + nakedURL + '/';
     }
 
 }
