@@ -4,16 +4,21 @@ import com.loopj.android.http.*;
 
 import org.json.JSONObject;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+
 public class FFRestAdapter<T> extends FFURLBuilder implements FFAdapter {
 
 
     private AsyncHttpClient asyncHttp = new AsyncHttpClient();
-    private FFJSONSerializer serializer;
+    private FFJSONSerializer<T> serializer;
     private String resourceName;
+    private FFRequestResponse<T> requestResponse;
 
-    public FFRestAdapter(String resourceName) {
+    public FFRestAdapter(String resourceName, FFRequestResponse<T> requestResponse) {
         this.resourceName = resourceName;
-        serializer =  new FFJSONSerializer<T>(resourceName);
+        this.requestResponse = requestResponse;
+        serializer =  new FFJSONSerializer<>(resourceName);
     }
 
     /**
@@ -25,10 +30,12 @@ public class FFRestAdapter<T> extends FFURLBuilder implements FFAdapter {
     @Override
     public void findRecord(String id) {
         String url = this.buildURL("findRecord", this.resourceName, id);
+        final FFRestAdapter self = this;
         this.asyncHttp.get(url, new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(JSONObject jsonObject) {
-                serializer.serializePayload(jsonObject);
+                T object = (T)self.serializer.serializePayload(jsonObject);
+                self.requestResponse.afterFindSuccess(new ArrayList<T>(Arrays.asList(object)));
             }
 
             @Override
