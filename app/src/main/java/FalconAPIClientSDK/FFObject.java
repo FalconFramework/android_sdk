@@ -2,6 +2,7 @@ package FalconAPIClientSDK;
 
 public abstract class FFObject<T> {
 
+    public Integer id;
     public FFRestAdapter adapter;
     public FFRequestResponse<T> requestResponse;
 
@@ -20,7 +21,6 @@ public abstract class FFObject<T> {
             return;
         }
         this.beforeRequest();
-
         this.adapter.findAll();
     }
 

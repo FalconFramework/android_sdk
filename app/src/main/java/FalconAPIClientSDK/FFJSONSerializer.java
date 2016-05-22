@@ -1,9 +1,14 @@
 package FalconAPIClientSDK;
 
+import org.atteo.evo.inflector.English;
+import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
+import java.util.ArrayList;
+import java.util.Iterator;
 
 public class FFJSONSerializer<T> {
 
@@ -15,43 +20,111 @@ public class FFJSONSerializer<T> {
         this.resourceName = resourceName;
     }
 
+    public ArrayList<T> serializePayload(JSONObject payload) {
 
-    public T serializePayload(JSONObject payload) {
-        System.out.println("#############################");
-        System.out.println(payload);
-        System.out.println("#############################");
+        ArrayList<T> serializedPayload = new ArrayList<T>();
 
+
+        if (payload.has(this.pluralizedResourceName())) {
+            JSONArray p = null;
+            try {
+                p = payload.getJSONArray(this.pluralizedResourceName());
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+            for (int i = 0; i < p.length(); i++) {
+                try {
+                    serializedPayload.add(this.serialize(p.getJSONObject(i)));
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+
+        } else {
+            try {
+                serializedPayload.add(this.serialize(payload.getJSONObject(this.resourceName)));
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+
+        return serializedPayload;
+    }
+
+    private T serialize(JSONObject payload) {
+        T newResource = this.newResourceInstance();
+
+        try {
+            payload = payload.getJSONObject(this.resourceName);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        Iterator<?> keys = payload.keys();
+
+        while(keys.hasNext()) {
+            String key = (String)keys.next();
+            try {
+                Object value = payload.get(key);
+                this.setFildToInstace(value, key, newResource);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+
+        return  newResource;
+    }
+
+    private Class<T> getResourceClass() {
         Class<T> resourceClass = null;
         try {
-            String className = this.resourceName.substring(0, 1).toUpperCase() + this.resourceName.substring(1);
-            className = "Models." + className;
+            String className = "Models." + this.capitalizedResourceName();
             resourceClass = (Class<T>)Class.forName(className);
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }
 
-        T object = null;
+        return resourceClass;
+    }
+
+    private T newResourceInstance() {
+        Class<T> resourceClass = this.getResourceClass();
+        T newResourceInstace = null;
+
         try {
-            object = resourceClass.newInstance();
-            Field field = null;
-            try {
-                field = object.getClass().getDeclaredField("name");
-                field.setAccessible(true);
-                try {
-                    field.set(object,"thiago");
-                } catch (IllegalAccessException e) {
-                    e.printStackTrace();
-                }
-            } catch (NoSuchFieldException e) {
-                e.printStackTrace();
-            }
+            newResourceInstace = resourceClass.newInstance();
         } catch (InstantiationException e) {
             e.printStackTrace();
         } catch (IllegalAccessException e) {
             e.printStackTrace();
         }
 
-        return  object;
+        return newResourceInstace;
+    }
+
+    private String capitalizedResourceName() {
+        return this.resourceName.substring(0, 1).toUpperCase() + this.resourceName.substring(1);
+    }
+
+    private String pluralizedResourceName() {
+        return English.plural(this.resourceName);
+    }
+
+    private void setFildToInstace(Object fieldValue, String fieldName, T instance) {
+        Field field = null;
+
+        try {
+            field = instance.getClass().getField(fieldName);
+            field.setAccessible(true);
+            try {
+                field.set(instance, fieldValue);
+            } catch (IllegalAccessException e) {
+                e.printStackTrace();
+            }
+        } catch (NoSuchFieldException e) {
+            e.printStackTrace();
+        }
     }
 
 }

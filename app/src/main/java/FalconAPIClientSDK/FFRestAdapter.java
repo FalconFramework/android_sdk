@@ -34,9 +34,8 @@ public class FFRestAdapter<T> extends FFURLBuilder implements FFAdapter {
         this.asyncHttp.get(url, new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(JSONObject jsonObject) {
-
-                T object = (T)self.serializer.serializePayload(jsonObject);
-                self.requestResponse.afterFindSuccess(new ArrayList<T>(Arrays.asList(object)));
+                ArrayList<T> response = (ArrayList<T>) self.serializer.serializePayload(jsonObject);
+                self.requestResponse.afterFindSuccess(response);
             }
 
             @Override
@@ -44,8 +43,6 @@ public class FFRestAdapter<T> extends FFURLBuilder implements FFAdapter {
                 System.out.println(error);
             }
         });
-
-        // Make GET CALL
     }
 
     /**
@@ -56,12 +53,13 @@ public class FFRestAdapter<T> extends FFURLBuilder implements FFAdapter {
     @Override
     public void findAll() {
         String url = this.buildURL("findAll", this.resourceName);
-        System.out.println(url);
+        final FFRestAdapter self = this;
 
         this.asyncHttp.get(url, new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(JSONObject jsonObject) {
-                System.out.println(jsonObject);
+                ArrayList<T> response = (ArrayList<T>) self.serializer.serializePayload(jsonObject);
+                self.requestResponse.afterFindSuccess(response);
             }
 
             @Override

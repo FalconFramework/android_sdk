@@ -11,7 +11,7 @@ import FalconAPIClientSDK.FFRequestResponse;
 import Models.Post;
 import Models.User;
 
-public class MainActivity extends AppCompatActivity implements FFRequestResponse<User> {
+public class MainActivity extends AppCompatActivity implements FFRequestResponse<User>{
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -21,25 +21,16 @@ public class MainActivity extends AppCompatActivity implements FFRequestResponse
         //Set API settings
         FFAPIClient apiSetting = new FFAPIClient("192.168.0.21:3000", "none");
 
-//        Post post = new Post(this);
-//        post.findAll();
-
         User user = new User();
         user.setRequestResponse(this);
 
-//        user.findAll();
         user.findRecord("1");
-//        user.findRecord("10");
-//        user.findRecord('1');
-//        user.query('adadadasd');
-//        user.deleteRecord();
-//        user.updateRecord();
-//        user.createRecord();
+//        user.findAll();
     }
 
     @Override
     public void afterFindSuccess(ArrayList<User> objects) {
-        System.out.println(objects.get(0).name);
+        System.out.println(objects.size());
     }
 
     @Override
