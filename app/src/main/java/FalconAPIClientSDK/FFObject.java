@@ -1,27 +1,22 @@
 package FalconAPIClientSDK;
 
-import com.loopj.android.http.*;
+public class FFObject<T> {
 
-import Models.User;
-
-public class FFObject {
-    private FFJSONSerializer<?> serializer;
-    private FFRestAdapter adapter;
+    public FFRestAdapter adapter;
 
     public FFObject() {
-        this.serializer = new FFJSONSerializer<FFObject>();
-        this.adapter = new FFRestAdapter(this.serializer);
+        adapter = new FFRestAdapter<T>(resourceName());
     }
 
-    public String resourceName() {
-        return "undefined";
+    public String resourceName(){
+        return "invalid";
     }
 
     public void findAll() {
-        this.adapter.findAll(this.resourceName());
+        this.adapter.findAll();
     }
 
     public void findRecord(String id) {
-        this.adapter.findRecord(this.resourceName(), id, this);
+        this.adapter.findRecord(id);
     }
 }

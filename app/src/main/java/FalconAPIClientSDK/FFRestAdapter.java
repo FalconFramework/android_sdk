@@ -1,24 +1,19 @@
 package FalconAPIClientSDK;
 
-import android.provider.UserDictionary;
-import android.text.TextUtils;
-import android.util.Log;
-
 import com.loopj.android.http.*;
 
 import org.json.JSONObject;
 
-import Models.User;
-
-public class FFRestAdapter extends FFURLBuilder implements FFAdapter {
+public class FFRestAdapter<T> extends FFURLBuilder implements FFAdapter {
 
 
-    private AsyncHttpClient asyncHttp;
+    private AsyncHttpClient asyncHttp = new AsyncHttpClient();
     private FFJSONSerializer serializer;
+    private String resourceName;
 
-    public FFRestAdapter(FFJSONSerializer serializer) {
-        this.asyncHttp = new AsyncHttpClient();
-        this.serializer = serializer;
+    public FFRestAdapter(String resourceName) {
+        this.resourceName = resourceName;
+        serializer =  new FFJSONSerializer<T>(resourceName);
     }
 
     /**
@@ -28,14 +23,12 @@ public class FFRestAdapter extends FFURLBuilder implements FFAdapter {
      * This method performs an HTTP GET request with the id provided as part of the query string.
      */
     @Override
-    public void findRecord(final String modelName, String id, final Object model) {
-        String url = this.buildURL("findRecord", modelName, id);
-        final FFRestAdapter self = this;
-
+    public void findRecord(String id) {
+        String url = this.buildURL("findRecord", this.resourceName, id);
         this.asyncHttp.get(url, new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(JSONObject jsonObject) {
-                self.serializer.serializePayload(jsonObject, model);
+                serializer.serializePayload(jsonObject);
             }
 
             @Override
@@ -53,8 +46,8 @@ public class FFRestAdapter extends FFURLBuilder implements FFAdapter {
      * and returns a promise for the resulting payload.
      */
     @Override
-    public void findAll(String modelName) {
-        String url = this.buildURL("findAll", modelName);
+    public void findAll() {
+        String url = this.buildURL("findAll", this.resourceName);
         System.out.println(url);
 
         this.asyncHttp.get(url, new JsonHttpResponseHandler() {
