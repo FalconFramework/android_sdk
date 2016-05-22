@@ -5,7 +5,7 @@ import java.util.ArrayList;
 /**
  * Created by luisresende on 05/05/16.
  */
-public interface FFRequestResponse {
+public interface FFRequestResponse<T> {
 
     /**
      * This method is for running a code after operation
@@ -13,7 +13,7 @@ public interface FFRequestResponse {
      *
      * @param objects list of return objects if find success
      */
-    void afterFindSuccess(ArrayList<Object> objects);
+    void afterFindSuccess(ArrayList<T> objects);
 
     /**
      * This method is for running a code after operation
@@ -21,7 +21,7 @@ public interface FFRequestResponse {
      *
      * @param object a return object if save success
      */
-    void afterSaveSuccess(Object object);
+    void afterSaveSuccess(T object);
 
     /**
      * This method is for running a code after operation

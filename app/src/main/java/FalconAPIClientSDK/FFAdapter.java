@@ -31,12 +31,12 @@ public interface FFAdapter {
      * @param FFResource
      * @param ID
      */
-    void findRecord(String modelName, String id, Object model);
+    void findRecord(String modelName);
 
     /**
      * The `findAll()` method is used to retrieve all records for a given type.
      */
-    void findAll(String modelName);
+    void findAll();
 
     /**
      * This method is called when you call `query` on the store.

@@ -3,20 +3,36 @@ package FalconAPIClientSDK;
 import org.json.JSONObject;
 
 import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
 
 public class FFJSONSerializer<T> {
 
-    public T serializePayload(JSONObject payload, Object model) {
+//    private final Class<T> type;
+
+    private String resourceName;
+
+    public FFJSONSerializer(String resourceName) {
+        this.resourceName = resourceName;
+    }
+
+
+    public T serializePayload(JSONObject payload) {
         System.out.println("#############################");
         System.out.println(payload);
         System.out.println("#############################");
 
-//        Object object1 = new Object();
-        Class<T> aClass = (Class<T>) model.getClass();
+        Class<T> resourceClass = null;
+        try {
+            String className = this.resourceName.substring(0, 1).toUpperCase() + this.resourceName.substring(1);
+            className = "Models." + className;
+            resourceClass = (Class<T>)Class.forName(className);
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+
         T object = null;
         try {
-            object = aClass.newInstance();
-
+            object = resourceClass.newInstance();
             Field field = null;
             try {
                 field = object.getClass().getDeclaredField("name");
@@ -34,15 +50,6 @@ public class FFJSONSerializer<T> {
         } catch (IllegalAccessException e) {
             e.printStackTrace();
         }
-
-        System.out.println("");
-
-        try {
-            System.out.println(object.getClass().getDeclaredField("name"));
-        } catch (NoSuchFieldException e) {
-            e.printStackTrace();
-        }
-
 
         return  object;
     }

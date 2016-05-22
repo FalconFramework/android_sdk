@@ -10,4 +10,7 @@ public class User extends FFObject {
     public String resourceName() {
         return "user";
     }
+
+
+
 }
