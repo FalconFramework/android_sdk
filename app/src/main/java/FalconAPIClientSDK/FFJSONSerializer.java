@@ -4,19 +4,18 @@ import org.json.JSONObject;
 
 import java.lang.reflect.Field;
 
-public class FFJSONSerializer {
+public class FFJSONSerializer<T> {
 
-    public void serializePayload(JSONObject payload, Object model) {
+    public T serializePayload(JSONObject payload, Object model) {
         System.out.println("#############################");
         System.out.println(payload);
         System.out.println("#############################");
 
 //        Object object1 = new Object();
-
-        Class<?> myClass = model.getClass();
-        Object object = new Object();
+        Class<T> aClass = (Class<T>) model.getClass();
+        T object = null;
         try {
-            object = myClass.newInstance();
+            object = aClass.newInstance();
 
             Field field = null;
             try {
@@ -44,6 +43,8 @@ public class FFJSONSerializer {
             e.printStackTrace();
         }
 
+
+        return  object;
     }
 
 }

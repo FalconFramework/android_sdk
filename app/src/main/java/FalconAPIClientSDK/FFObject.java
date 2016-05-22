@@ -2,12 +2,14 @@ package FalconAPIClientSDK;
 
 import com.loopj.android.http.*;
 
+import Models.User;
+
 public class FFObject {
-    private FFJSONSerializer serializer;
+    private FFJSONSerializer<?> serializer;
     private FFRestAdapter adapter;
 
     public FFObject() {
-        this.serializer = new FFJSONSerializer();
+        this.serializer = new FFJSONSerializer<FFObject>();
         this.adapter = new FFRestAdapter(this.serializer);
     }
 
