@@ -1,10 +1,11 @@
 package FalconAPIClientSDK;
 
-public class FFObject<T> {
+public abstract class FFObject<T> {
 
     public FFRestAdapter adapter;
     public FFRequestResponse<T> requestResponse;
 
+    public abstract String resourceName();
 
     public FFRequestResponse<T> getRequestResponse() {
         return requestResponse;
@@ -14,17 +15,19 @@ public class FFObject<T> {
         this.requestResponse = requestResponse;
     }
 
-    public String resourceName(){
-        return "invalid";
-    }
-
     public void findAll() {
+        if (this.requestResponse == null) {
+            return;
+        }
         this.beforeRequest();
 
         this.adapter.findAll();
     }
 
     public void findRecord(String id) {
+        if (this.requestResponse == null) {
+            return;
+        }
         this.beforeRequest();
         this.adapter.findRecord(id);
     }

@@ -34,6 +34,7 @@ public class FFRestAdapter<T> extends FFURLBuilder implements FFAdapter {
         this.asyncHttp.get(url, new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(JSONObject jsonObject) {
+
                 T object = (T)self.serializer.serializePayload(jsonObject);
                 self.requestResponse.afterFindSuccess(new ArrayList<T>(Arrays.asList(object)));
             }
@@ -115,5 +116,6 @@ public class FFRestAdapter<T> extends FFURLBuilder implements FFAdapter {
         String url = this.buildURL("deleteRecord", "post", "1");
 
     }
+
 
 }
