@@ -1,16 +1,10 @@
 package FalconAPIClientSDK;
 
 import com.loopj.android.http.*;
-
-import org.apache.http.HttpEntity;
-import org.apache.http.entity.StringEntity;
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Map;
+
 
 public class FFRestAdapter<T extends FFObject> extends FFURLBuilder implements FFAdapter<T> {
 
@@ -116,7 +110,6 @@ public class FFRestAdapter<T extends FFObject> extends FFURLBuilder implements F
                 System.out.println(error);
             }
         });
-
     }
 
     /**
@@ -144,7 +137,6 @@ public class FFRestAdapter<T extends FFObject> extends FFURLBuilder implements F
                 System.out.println(error);
             }
         });
-
     }
 
     /**
@@ -154,8 +146,20 @@ public class FFRestAdapter<T extends FFObject> extends FFURLBuilder implements F
      */
     @Override
     public void deleteRecord(String id) {
-        String url = this.buildURL("deleteRecord", "post", "1");
+        String url = this.buildURL("deleteRecord", this.resourceName, id);
+        final FFRestAdapter self = this;
 
+        this.asyncHttp.delete(url, new JsonHttpResponseHandler() {
+            @Override
+            public void onSuccess(JSONObject jsonObject) {
+                self.requestResponse.afterDeleteSuccess("204");
+            }
+
+            @Override
+            public void onFailure(int statusCode, Throwable throwable, JSONObject error) {
+                System.out.println(error);
+            }
+        });
     }
 
 

@@ -53,4 +53,12 @@ public abstract class FFObject<T> {
 
         }
     }
+
+    public void delete() {
+        this.beforeRequest();
+        if (this.id != null) {
+            System.out.println(this.id);
+            this.adapter.deleteRecord(String.valueOf(this.id));
+        }
+    }
 }
