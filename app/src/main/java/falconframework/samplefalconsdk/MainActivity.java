@@ -13,29 +13,43 @@ import Models.User;
 
 public class MainActivity extends AppCompatActivity implements FFRequestResponse<User>{
 
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
         //Set API settings
-        FFAPIClient apiSetting = new FFAPIClient("192.168.0.21:3000", "none");
+        FFAPIClient apiSetting = new FFAPIClient("192.168.0.21:3000", "none", this);
 
         User user = new User();
         user.setRequestResponse(this);
 
+
         user.findRecord("1");
-//        user.findAll();
+
+
     }
 
     @Override
     public void afterFindSuccess(ArrayList<User> objects) {
-        System.out.println(objects.size());
+        User u = objects.get(0);
+        u.setRequestResponse(this);
+
+        System.out.println("######## Velho ##########");
+        System.out.println(u.name);
+
+
+        u.name= "João Ribeiro da silva neto";
+
+        u.save();
     }
 
     @Override
     public void afterSaveSuccess(User object) {
-
+        System.out.println("######## Novo ##########");
+        System.out.println(object.name);
     }
 
     @Override

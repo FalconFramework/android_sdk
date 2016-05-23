@@ -1,5 +1,7 @@
 package FalconAPIClientSDK;
 
+import com.loopj.android.http.RequestParams;
+
 import org.atteo.evo.inflector.English;
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -8,7 +10,10 @@ import org.json.JSONObject;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
+import java.util.Map;
+import java.util.Objects;
 
 public class FFJSONSerializer<T> {
 
@@ -125,6 +130,26 @@ public class FFJSONSerializer<T> {
         } catch (NoSuchFieldException e) {
             e.printStackTrace();
         }
+    }
+    
+    public RequestParams deserialize(T model) {
+        Field[] fields = this.getResourceClass().getFields();
+
+        RequestParams params = new RequestParams();
+        
+        Map<Object, Object> map = new HashMap<Object, Object>();
+
+        for (Field field : fields ) {
+            try {
+                map.put(field.getName(), "" + field.get(model));
+            } catch (IllegalAccessException e) {
+                e.printStackTrace();
+            }
+        }
+
+        params.put(this.resourceName, map);
+        
+        return params;
     }
 
 }

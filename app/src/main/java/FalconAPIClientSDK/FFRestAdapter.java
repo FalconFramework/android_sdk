@@ -2,12 +2,17 @@ package FalconAPIClientSDK;
 
 import com.loopj.android.http.*;
 
+import org.apache.http.HttpEntity;
+import org.apache.http.entity.StringEntity;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
 
-public class FFRestAdapter<T> extends FFURLBuilder implements FFAdapter {
+public class FFRestAdapter<T extends FFObject> extends FFURLBuilder implements FFAdapter<T> {
 
 
     private AsyncHttpClient asyncHttp = new AsyncHttpClient();
@@ -69,16 +74,16 @@ public class FFRestAdapter<T> extends FFURLBuilder implements FFAdapter {
         });
     }
 
-    /**
-     * Called by the FFResource in order to fetch a JSON array for the records that match a particular query.
-     * The query method makes an Asynchronous (HTTP GET) request to a URL computed by buildURL, and returns a
-     * promise for the resulting payload.
-     * The query argument is a simple Map object that will be passed directly to the server as parameters.
-     */
-    @Override
-    public void query(String modelName, String query) {
-
-    }
+//    /**
+//     * Called by the FFResource in order to fetch a JSON array for the records that match a particular query.
+//     * The query method makes an Asynchronous (HTTP GET) request to a URL computed by buildURL, and returns a
+//     * promise for the resulting payload.
+//     * The query argument is a simple Map object that will be passed directly to the server as parameters.
+//     */
+//    @Override
+//    public void query(String modelName, String query) {
+//
+//    }
 
     /**
      * Called by FFResource when a newly created record is saved via the save method on a model
@@ -87,8 +92,30 @@ public class FFRestAdapter<T> extends FFURLBuilder implements FFAdapter {
      * See serialize for information on how to customize the serialized form of a record.
      */
     @Override
-    public void createRecord(String modelName) {
-        String url = this.buildURL("createRecord", "post");
+    public void createRecord(final T model) {
+        String url = this.buildURL("createRecord", this.resourceName);
+        final FFRestAdapter self = this;
+
+        RequestParams params = this.serializer.deserialize(model);
+
+        this.asyncHttp.post(url, params, new JsonHttpResponseHandler() {
+            @Override
+            public void onSuccess(JSONObject jsonObject) {
+                System.out.println(jsonObject);
+                try {
+                    model.id = jsonObject.getJSONObject(self.resourceName).getInt("id");
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+                self.requestResponse.afterSaveSuccess(model);
+            }
+
+            @Override
+            public void onFailure(int statusCode, Throwable throwable, JSONObject error) {
+                System.out.println(error);
+            }
+        });
 
     }
 
@@ -99,8 +126,24 @@ public class FFRestAdapter<T> extends FFURLBuilder implements FFAdapter {
      * See serialize for information on how to customize the serialized form of a record.
      */
     @Override
-    public void updateRecord(String modelName, String id) {
-        String url = this.buildURL("updateRecord", "post", "1");
+    public void updateRecord(final T model) {
+        String url = this.buildURL("updateRecord", this.resourceName, model.id.toString());
+
+        final FFRestAdapter self = this;
+
+        RequestParams params = this.serializer.deserialize(model);
+
+        this.asyncHttp.put(url, params, new JsonHttpResponseHandler() {
+            @Override
+            public void onSuccess(JSONObject jsonObject) {
+                self.requestResponse.afterSaveSuccess(model);
+            }
+
+            @Override
+            public void onFailure(int statusCode, Throwable throwable, JSONObject error) {
+                System.out.println(error);
+            }
+        });
 
     }
 
@@ -110,7 +153,7 @@ public class FFRestAdapter<T> extends FFURLBuilder implements FFAdapter {
      * by buildURL.
      */
     @Override
-    public void deleteRecord(String modelName, String id) {
+    public void deleteRecord(String id) {
         String url = this.buildURL("deleteRecord", "post", "1");
 
     }

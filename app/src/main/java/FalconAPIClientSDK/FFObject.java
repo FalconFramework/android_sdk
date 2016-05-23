@@ -37,4 +37,20 @@ public abstract class FFObject<T> {
             this.adapter = new FFRestAdapter(this.resourceName(), this.requestResponse);
         }
     }
+
+    public void save() {
+        if (this.requestResponse == null) {
+            return;
+        }
+        this.beforeRequest();
+
+        if (this.id != null) {
+            //update
+            this.adapter.updateRecord(this);
+        } else {
+            //create
+            this.adapter.createRecord(this);
+
+        }
+    }
 }

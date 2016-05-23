@@ -20,7 +20,7 @@ package FalconAPIClientSDK;
    query()
  */
 
-public interface FFAdapter {
+public interface FFAdapter<T> {
 
     /**
      * The `findRecord()` method is invoked when the FFResource is asked for a record.
@@ -31,33 +31,29 @@ public interface FFAdapter {
      * @param FFResource
      * @param ID
      */
-    void findRecord(String modelName);
+    void findRecord(String id);
 
     /**
      * The `findAll()` method is used to retrieve all records for a given type.
      */
     void findAll();
 
-    /**
-     * This method is called when you call `query` on the store.
-     */
-    void query(String modelName, String query);
 
     /**
      * Implement this method in a subclass to handle the creation of a new records.
      * Serializes the record and sends it to the server.
      */
-    void createRecord(String modelName);
+    void createRecord(T model);
 
     /**
      * Implement this method in a subclass to handle the updating of a record.
      * Serializes the record update and sends it to the server.
      */
-    void updateRecord(String modelName, String id);
+    void updateRecord(T model);
 
     /**
      * Implement this method in a subclass to handle the deletion of a record.
      * Sends a delete request for the record to the server.
      */
-    void deleteRecord(String modelName, String id);
+    void deleteRecord(String id);
 }
