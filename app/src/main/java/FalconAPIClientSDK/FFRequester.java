@@ -1,14 +1,14 @@
 package FalconAPIClientSDK;
 
 /**
- An adapter is an object that receives requests from a FFResource and
+ An currentRequester is an object that receives requests from a FFResource and
  translates them into the appropriate action to take against your
  persistence layer. The persistence layer is usually an HTTP API, but
  may be anything, such as local storage. Typically the
- adapter is not invoked directly instead its functionality is accessed
+ currentRequester is not invoked directly instead its functionality is accessed
  through the FFResource.
 
- FFAdapter is an abstract base class that you should override in your
+ FFRequester is an abstract base class that you should override in your
  application to customize it for your backend. The minimum set of methods
  that you should implement is:
 
@@ -20,7 +20,7 @@ package FalconAPIClientSDK;
    query()
  */
 
-public interface FFAdapter<T> {
+public interface FFRequester<T> {
 
     /**
      * The `findRecord()` method is invoked when the FFResource is asked for a record.

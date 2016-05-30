@@ -6,18 +6,27 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 
 
-public class FFRestAdapter<T extends FFObject> extends FFURLBuilder implements FFAdapter<T> {
+public class FFRestRequester<T extends FFObject>  implements FFRequester<T> {
 
 
     private AsyncHttpClient asyncHttp = new AsyncHttpClient();
     private FFJSONSerializer<T> serializer;
     private String resourceName;
     private FFRequestResponse<T> requestResponse;
-
-    public FFRestAdapter(String resourceName, FFRequestResponse<T> requestResponse) {
+    private FFURLBuilder urlBuilder;
+    public FFRestRequester(String resourceName, FFRequestResponse<T> requestResponse) {
         this.resourceName = resourceName;
         this.requestResponse = requestResponse;
         serializer =  new FFJSONSerializer<>(resourceName);
+
+        switch (FFAPIClient.sharedClient().getServerPattern()) {
+            case NONE:
+                this.urlBuilder = null;
+                break;
+            case JSONAPI:
+                this.urlBuilder = new FFJSONApiURLBuilder();
+                break;
+        }
     }
 
     /**
@@ -28,8 +37,8 @@ public class FFRestAdapter<T extends FFObject> extends FFURLBuilder implements F
      */
     @Override
     public void findRecord(String id) {
-        String url = this.buildURL("findRecord", this.resourceName, id);
-        final FFRestAdapter self = this;
+        String url = this.urlBuilder.buildURL("findRecord", this.resourceName, id);
+        final FFRestRequester self = this;
         this.asyncHttp.get(url, new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(JSONObject jsonObject) {
@@ -51,8 +60,8 @@ public class FFRestAdapter<T extends FFObject> extends FFURLBuilder implements F
      */
     @Override
     public void findAll() {
-        String url = this.buildURL("findAll", this.resourceName);
-        final FFRestAdapter self = this;
+        String url = this.urlBuilder.buildURL("findAll", this.resourceName);
+        final FFRestRequester self = this;
 
         this.asyncHttp.get(url, new JsonHttpResponseHandler() {
             @Override
@@ -87,8 +96,8 @@ public class FFRestAdapter<T extends FFObject> extends FFURLBuilder implements F
      */
     @Override
     public void createRecord(final T model) {
-        String url = this.buildURL("createRecord", this.resourceName);
-        final FFRestAdapter self = this;
+        String url = this.urlBuilder.buildURL("createRecord", this.resourceName);
+        final FFRestRequester self = this;
 
         RequestParams params = this.serializer.deserialize(model);
 
@@ -120,9 +129,9 @@ public class FFRestAdapter<T extends FFObject> extends FFURLBuilder implements F
      */
     @Override
     public void updateRecord(final T model) {
-        String url = this.buildURL("updateRecord", this.resourceName, model.id.toString());
+        String url = this.urlBuilder.buildURL("updateRecord", this.resourceName, model.id.toString());
 
-        final FFRestAdapter self = this;
+        final FFRestRequester self = this;
 
         RequestParams params = this.serializer.deserialize(model);
 
@@ -146,8 +155,8 @@ public class FFRestAdapter<T extends FFObject> extends FFURLBuilder implements F
      */
     @Override
     public void deleteRecord(String id) {
-        String url = this.buildURL("deleteRecord", this.resourceName, id);
-        final FFRestAdapter self = this;
+        String url = this.urlBuilder.buildURL("deleteRecord", this.resourceName, id);
+        final FFRestRequester self = this;
 
         this.asyncHttp.delete(url, new JsonHttpResponseHandler() {
             @Override

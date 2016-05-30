@@ -3,7 +3,7 @@ package FalconAPIClientSDK;
 public abstract class FFObject<T> {
 
     public Integer id;
-    public FFRestAdapter adapter;
+    public FFRestRequester currentRequester;
     public FFRequestResponse<T> requestResponse;
 
     public abstract String resourceName();
@@ -21,7 +21,7 @@ public abstract class FFObject<T> {
             return;
         }
         this.beforeRequest();
-        this.adapter.findAll();
+        this.currentRequester.findAll();
     }
 
     public void findRecord(String id) {
@@ -29,12 +29,12 @@ public abstract class FFObject<T> {
             return;
         }
         this.beforeRequest();
-        this.adapter.findRecord(id);
+        this.currentRequester.findRecord(id);
     }
 
     private void beforeRequest() {
-        if (this.adapter == null) {
-            this.adapter = new FFRestAdapter(this.resourceName(), this.requestResponse);
+        if (this.currentRequester == null) {
+            this.currentRequester = new FFRestRequester(this.resourceName(), this.requestResponse);
         }
     }
 
@@ -46,10 +46,10 @@ public abstract class FFObject<T> {
 
         if (this.id != null) {
             //update
-            this.adapter.updateRecord(this);
+            this.currentRequester.updateRecord(this);
         } else {
             //create
-            this.adapter.createRecord(this);
+            this.currentRequester.createRecord(this);
 
         }
     }
@@ -58,7 +58,7 @@ public abstract class FFObject<T> {
         this.beforeRequest();
         if (this.id != null) {
             System.out.println(this.id);
-            this.adapter.deleteRecord(String.valueOf(this.id));
+            this.currentRequester.deleteRecord(String.valueOf(this.id));
         }
     }
 }

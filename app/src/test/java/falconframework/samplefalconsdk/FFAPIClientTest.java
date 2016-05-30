@@ -8,6 +8,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import FalconAPIClientSDK.FFAPIClient;
+import FalconAPIClientSDK.ServerPattern;
 
 import static org.junit.Assert.*;
 
@@ -19,7 +20,7 @@ public class FFAPIClientTest {
     @Test
     public void testShouldGetNewInstanceWithBaseUrlAndKeyAndContext() throws Exception {
         FFAPIClient ffapiClient = null;
-        ffapiClient = new FFAPIClient("url","apikey");
+        ffapiClient = new FFAPIClient("url","apikey",ServerPattern.NONE);
         assertNotNull(ffapiClient);
     }
 
@@ -31,15 +32,16 @@ public class FFAPIClientTest {
     }
 
     @Test
-    public void testShouldGetApiUrlAndApiKey() throws Exception {
+    public void testShouldGetApiKeyAndServerPattern() throws Exception {
         Context context = Application.class.newInstance();
-        FFAPIClient ffapiClient = new FFAPIClient("www.falcon.com","keyapifalcon");
+        FFAPIClient ffapiClient = new FFAPIClient("www.falcon.com","keyapifalcon", ServerPattern.JSONAPI);
         assertEquals(FFAPIClient.sharedClient().getApiKey(),"keyapifalcon");
+        assertEquals(FFAPIClient.sharedClient().getServerPattern(),ServerPattern.JSONAPI);
     }
 
     @Test
     public void testShouldNormalizeNakedUrl() throws Exception {
-        FFAPIClient ffapiClient = new FFAPIClient("www.falcon.com","keyapifalcon");
+        FFAPIClient ffapiClient = new FFAPIClient("www.falcon.com","keyapifalcon", ServerPattern.NONE);
         assertEquals(FFAPIClient.sharedClient().getHost(),"http://www.falcon.com");
     }
 }
