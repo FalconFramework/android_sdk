@@ -43,7 +43,7 @@ public class FFJSONSerializerTest {
     @Test
     public void testSerializePayload() {
         serializer.serializePayload(payload);
-        User user = serializer.serializePayload(payload);
+       // User user = serializer.serializePayload(payload);
 
     }
 }

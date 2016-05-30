@@ -18,7 +18,7 @@ public class MainActivity extends AppCompatActivity implements FFRequestResponse
         setContentView(R.layout.activity_main);
 
         //Set API settings
-        FFAPIClient apiSetting = new FFAPIClient("192.168.0.21:3000", "none", this);
+        FFAPIClient apiSetting = new FFAPIClient("192.168.0.21:3000", "none");
         User user = new User();
         user.setRequestResponse(this);
         user.findRecord("1");
