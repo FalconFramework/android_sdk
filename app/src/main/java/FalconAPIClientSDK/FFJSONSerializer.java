@@ -21,8 +21,16 @@ public class FFJSONSerializer<T> {
 
     private String resourceName;
 
-    public FFJSONSerializer(String resourceName) {
+    public String getResourceName() {
+        return resourceName;
+    }
+
+    private void setResourceName(String resourceName) {
         this.resourceName = resourceName;
+    }
+
+    public FFJSONSerializer(String resourceName) {
+        setResourceName(resourceName);
     }
 
     public ArrayList<T> serializePayload(JSONObject payload) {
@@ -84,7 +92,7 @@ public class FFJSONSerializer<T> {
     private Class<T> getResourceClass() {
         Class<T> resourceClass = null;
         try {
-            String className = "Models." + this.capitalizedResourceName();
+            String className = "falconframework.samplefalconsdk.Models." + this.capitalizedResourceName();
             resourceClass = (Class<T>)Class.forName(className);
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
