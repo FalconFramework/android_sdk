@@ -4,15 +4,15 @@ public abstract class FFObject<T> {
 
     public Integer id;
     public FFRestRequester currentRequester;
-    public FFRequestResponse<T> requestResponse;
+    public FFRequestListener<T> requestResponse;
 
     public abstract String resourceName();
 
-    public FFRequestResponse<T> getRequestResponse() {
+    public FFRequestListener<T> getRequestResponse() {
         return requestResponse;
     }
 
-    public void setRequestResponse(FFRequestResponse<T> requestResponse) {
+    public void setRequestResponse(FFRequestListener<T> requestResponse) {
         this.requestResponse = requestResponse;
     }
 
