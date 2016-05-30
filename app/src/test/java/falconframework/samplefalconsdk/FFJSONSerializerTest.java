@@ -8,7 +8,7 @@ import org.junit.runner.RunWith;
 import org.powermock.modules.junit4.PowerMockRunner;
 import java.util.*;
 import FalconAPIClientSDK.FFJSONSerializer;
-import Models.User;
+import falconframework.samplefalconsdk.Models.User;
 
 import static org.mockito.Mockito.mock;
 
@@ -42,8 +42,9 @@ public class FFJSONSerializerTest {
 
     @Test
     public void testSerializePayload() {
-        serializer.serializePayload(payload);
-       // User user = serializer.serializePayload(payload);
+        User user = new User();
 
+        ArrayList<User> users = new ArrayList<>();
+        users = serializer.serializePayload(payload);
     }
 }

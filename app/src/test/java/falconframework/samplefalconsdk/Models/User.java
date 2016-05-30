@@ -1,4 +1,4 @@
-package Models;
+package falconframework.samplefalconsdk.Models;
 
 import FalconAPIClientSDK.FFObject;
 
