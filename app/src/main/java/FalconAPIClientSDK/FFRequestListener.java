@@ -2,9 +2,6 @@ package FalconAPIClientSDK;
 
 import java.util.ArrayList;
 
-/**
- * Created by luisresende on 05/05/16.
- */
 public interface FFRequestListener<T> {
 
     /**

@@ -45,7 +45,7 @@ import java.util.Objects;
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-                Iterator<T> jsonArrayIterator  = new FFJSONSerializerIterator<T>(this.resourceName, payloadArray);
+                Iterator<T> jsonArrayIterator  = new FFJSONSerializerIterator<>(this.resourceName, payloadArray);
                 while (jsonArrayIterator.hasNext()) {
                     T object = jsonArrayIterator.next();
                     serializedPayload.add(object);
