@@ -1,5 +1,7 @@
 package falconframework.samplefalconsdk;
 
+import com.loopj.android.http.RequestParams;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -65,7 +67,7 @@ public class FFJSONSerializerTest {
     }
 
     @Test
-    public void testShouldReturnJSONExecptionInSerializePayload() {
+    public void testShouldReturnResourceName() {
         FFJSONSerializer<User> jsonSerializer = new FFJSONSerializer<User>("someResourceName");
         assertEquals(jsonSerializer.getResourceName(),"someResourceName");
     }
