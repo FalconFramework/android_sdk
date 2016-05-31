@@ -36,8 +36,8 @@ public class FFJSONSerializerTest {
 
             JSONObject userObject = new JSONObject();
             userObject.put("id", 1);
-            userObject.put("name", "Thiago");
-            userObject.put("email", "thiago.mb@icloud.com");
+            userObject.put("name", "Luis");
+            userObject.put("email", "luis@icloud.com");
             userObject.put("age", 21);
             JSONObject userKey = new JSONObject();
             userKey.put("user",userObject);
@@ -54,8 +54,8 @@ public class FFJSONSerializerTest {
     public void testSerializePayload() {
         User user = new User();
         user.setAge(21);
-        user.setEmail("thiago.mb@icloud.com");
-        user.setName("Thiago");
+        user.setEmail("luis@icloud.com");
+        user.setName("Luis");
 
         ArrayList<User> users = new ArrayList<>();
         users = serializer.serializePayload(payload);
@@ -70,6 +70,25 @@ public class FFJSONSerializerTest {
     public void testShouldReturnResourceName() {
         FFJSONSerializer<User> jsonSerializer = new FFJSONSerializer<User>("someResourceName");
         assertEquals(jsonSerializer.getResourceName(),"someResourceName");
+    }
+
+    @Test
+    public void testDeserializePayload() {
+        User user = new User();
+        user.setAge(21);
+        user.setEmail("luis@icloud.com");
+        user.setName("Luis");
+
+        RequestParams params = new RequestParams();
+        params.put("name","Luis");
+        params.put("email","luis@icloud.com");
+        params.put("age","21");
+
+        RequestParams requestParams = serializer.deserialize(user);
+
+        //Refatorar Teste
+        //assertEquals(params.toString(),requestParams.toString());
+
     }
 
 }
