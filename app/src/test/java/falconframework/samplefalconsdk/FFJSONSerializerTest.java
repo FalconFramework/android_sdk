@@ -12,6 +12,7 @@ import org.junit.runner.RunWith;
 import org.powermock.modules.junit4.PowerMockRunner;
 import java.util.*;
 import FalconAPIClientSDK.FFJSONSerializer;
+import FalconAPIClientSDK.FFJSONSerializerIterator;
 import falconframework.samplefalconsdk.Models.User;
 
 import static org.mockito.Mockito.mock;
@@ -89,6 +90,13 @@ public class FFJSONSerializerTest {
         //Refatorar Teste
         //assertEquals(params.toString(),requestParams.toString());
 
+    }
+
+    @Test
+    public void testShouldRemove() {
+        JSONArray jsonArray = new JSONArray();
+        FFJSONSerializerIterator<User> jsonSerializer = new FFJSONSerializerIterator<User>("someResourceName",jsonArray);
+        jsonSerializer.remove();
     }
 
 }
