@@ -36,16 +36,16 @@ public class FFAPIClient {
      * @param key an api key of client in server
      */
     public FFAPIClient (String url, String key, ServerPattern serverPattern){
-        sharedClient().host = this.normalizeNakedURL(url);
-        sharedClient().apiKey = key;
-        sharedClient().serverPattern = serverPattern;
+        sharedClient().setHost(this.normalizeNakedURL(url));
+        sharedClient().setApiKey(key);
+        sharedClient().setServerPattern(serverPattern);
     }
 
     public String getHost() {
         return host;
     }
 
-    public void setHost(String apiBaseUrl) {
+    private void setHost(String apiBaseUrl) {
         this.host = apiBaseUrl;
     }
 
@@ -53,7 +53,7 @@ public class FFAPIClient {
         return apiKey;
     }
 
-    public void setApiKey(String apiKey) {
+    private void setApiKey(String apiKey) {
         this.apiKey = apiKey;
     }
 
@@ -65,7 +65,7 @@ public class FFAPIClient {
         return serverPattern;
     }
 
-    public void setServerPattern(ServerPattern serverPattern) {
+    private void setServerPattern(ServerPattern serverPattern) {
         this.serverPattern = serverPattern;
     }
 
