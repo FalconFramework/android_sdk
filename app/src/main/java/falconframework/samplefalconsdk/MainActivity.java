@@ -7,11 +7,11 @@ import java.util.ArrayList;
 
 import FalconAPIClientSDK.FFAPIClient;
 import FalconAPIClientSDK.FFError;
-import FalconAPIClientSDK.FFRequestResponse;
+import FalconAPIClientSDK.FFRequestListener;
 import FalconAPIClientSDK.ServerPattern;
 import Models.User;
 
-public class MainActivity extends AppCompatActivity implements FFRequestResponse<User>{
+public class MainActivity extends AppCompatActivity implements FFRequestListener<User> {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

@@ -12,9 +12,9 @@ public class FFRestRequester<T extends FFObject>  implements FFRequester<T> {
     private AsyncHttpClient asyncHttp = new AsyncHttpClient();
     private FFJSONSerializer<T> serializer;
     private String resourceName;
-    private FFRequestResponse<T> requestResponse;
+    private FFRequestListener<T> requestResponse;
     private FFURLBuilder urlBuilder;
-    public FFRestRequester(String resourceName, FFRequestResponse<T> requestResponse) {
+    public FFRestRequester(String resourceName, FFRequestListener<T> requestResponse) {
         this.resourceName = resourceName;
         this.requestResponse = requestResponse;
         serializer =  new FFJSONSerializer<>(resourceName);

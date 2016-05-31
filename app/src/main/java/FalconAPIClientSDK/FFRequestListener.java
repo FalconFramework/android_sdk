@@ -2,10 +2,7 @@ package FalconAPIClientSDK;
 
 import java.util.ArrayList;
 
-/**
- * Created by luisresende on 05/05/16.
- */
-public interface FFRequestResponse<T> {
+public interface FFRequestListener<T> {
 
     /**
      * This method is for running a code after operation
