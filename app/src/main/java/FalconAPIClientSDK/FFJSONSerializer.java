@@ -142,17 +142,18 @@ import java.util.Objects;
 
             RequestParams params = new RequestParams();
 
-            Map<Object, Object> map = new HashMap<Object, Object>();
+//            Map<Object, Object> map = new HashMap<Object, Object>();
 
             for (Field field : fields ) {
                 try {
-                    map.put(field.getName(), "" + field.get(model));
+                    if (field.get(model) != null )
+                        params.put(field.getName(), "" + field.get(model));
                 } catch (IllegalAccessException e) {
                     e.printStackTrace();
                 }
             }
 
-            params.put(this.resourceName, map);
+//            params.put(this.resourceName, map);
 
             return params;
         }

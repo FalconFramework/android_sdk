@@ -4,6 +4,7 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/SampleFalconSDK.iml" filepath="$PROJECT_DIR$/SampleFalconSDK.iml" />
       <module fileurl="file://$PROJECT_DIR$/android_sdk.iml" filepath="$PROJECT_DIR$/android_sdk.iml" />
+      <module fileurl="file://$PROJECT_DIR$/androidframework.iml" filepath="$PROJECT_DIR$/androidframework.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
     </modules>
   </component>

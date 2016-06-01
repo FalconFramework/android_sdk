@@ -23,7 +23,6 @@ public class FFJSONApiURLBuilderTest {
         ffjsonApiURLBuilder = new FFJSONApiURLBuilder();
     }
 
-
     @Test
     public void testShouldGetNewInstance(){
         assertNotNull(ffjsonApiURLBuilder);
