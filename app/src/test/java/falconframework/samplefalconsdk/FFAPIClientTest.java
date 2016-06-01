@@ -41,7 +41,7 @@ public class FFAPIClientTest {
 
     @Test
     public void testShouldNormalizeNakedUrl() throws Exception {
-        FFAPIClient ffapiClient = new FFAPIClient("www.falcon.com","keyapifalcon", ServerPattern.NONE);
-        assertEquals(FFAPIClient.sharedClient().getHost(),"http://www.falcon.com");
+        FFAPIClient ffapiClient = new FFAPIClient("www.falcon.com.br","keyapifalcon", ServerPattern.NONE);
+        assertEquals(FFAPIClient.sharedClient().getHost(),"http://www.falcon.com.br");
     }
 }

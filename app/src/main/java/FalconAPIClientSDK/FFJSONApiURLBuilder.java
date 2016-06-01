@@ -5,6 +5,7 @@ import android.text.TextUtils;
 import org.atteo.evo.inflector.English;
 
 import java.io.UnsupportedEncodingException;
+import java.lang.reflect.Array;
 import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -47,7 +48,7 @@ public class FFJSONApiURLBuilder extends FFURLBuilder {
             case "deleteRecord":
                 return this._buildURL(modelName, id);
             default:
-                return this._buildURL(modelName);
+                return this._buildURL(modelName,id);
         }
     }
 
@@ -55,7 +56,10 @@ public class FFJSONApiURLBuilder extends FFURLBuilder {
         String path = this.pathForType(modelName);
         String host = this.host;
 
-        return TextUtils.join("/", new ArrayList<String>(Arrays.asList(host, path)));
+        return host + "/" + path;
+
+//        ArrayList<String> stringArrayList = new ArrayList<String>(Arrays.asList(host, path));
+//        return TextUtils.join("/", stringArrayList);
     }
 
     private String _buildURL(String modelName, String id) {
@@ -65,7 +69,9 @@ public class FFJSONApiURLBuilder extends FFURLBuilder {
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         }
-        return TextUtils.join("/", new ArrayList<String>(Arrays.asList(this._buildURL(modelName), encodedID)));
+        return this._buildURL(modelName) + "/" + encodedID;
+        //ArrayList<String> stringArrayList = new ArrayList<String>(Arrays.asList(this._buildURL(modelName), encodedID));
+        //return TextUtils.join("/", stringArrayList);
     }
 
     private String pathForType(String modelName) {
