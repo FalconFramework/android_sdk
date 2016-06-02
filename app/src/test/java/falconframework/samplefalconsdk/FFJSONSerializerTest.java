@@ -81,14 +81,14 @@ public class FFJSONSerializerTest {
         user.setName("Luis");
 
         RequestParams params = new RequestParams();
-        params.put("name","Luis");
-        params.put("email","luis@icloud.com");
-        params.put("age","21");
+        RequestParams userParams = new RequestParams();
+        userParams.put("name", "Luis");
+        userParams.put("email", "luis@icloud.com");
+        userParams.put("age", "21");
+        params.put("user", userParams);
 
         RequestParams requestParams = serializer.deserialize(user);
-
-        //Refatorar Teste
-        //assertEquals(params.toString(),requestParams.toString());
+        assertEquals(requestParams.toString(),userParams.toString());
 
     }
 
