@@ -89,7 +89,8 @@ import java.util.Objects;
         private Class<T> getResourceClass() {
             Class<T> resourceClass = null;
             try {
-                String className = "falconframework.samplefalconsdk.Models." + this.capitalizedResourceName();
+                //String className = "falconframework.samplefalconsdk.Models." + this.capitalizedResourceName();
+                String className = "Models." + this.capitalizedResourceName();
                 resourceClass = (Class<T>)Class.forName(className);
             } catch (ClassNotFoundException e) {
                 e.printStackTrace();
@@ -146,7 +147,8 @@ import java.util.Objects;
 
             for (Field field : fields ) {
                 try {
-                    if (field.get(model) != null )
+                    if (field.get(model) != null && field.getName().contentEquals("currentRequester")==false
+                            && field.getName().contentEquals("requestResponse")==false)
                         params.put(field.getName(), "" + field.get(model));
                 } catch (IllegalAccessException e) {
                     e.printStackTrace();

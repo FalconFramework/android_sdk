@@ -9,7 +9,7 @@ import java.util.ArrayList;
 public class FFRestRequester<T extends FFObject>  implements FFRequester<T> {
 
 
-    private AsyncHttpClient asyncHttp = new AsyncHttpClient();
+    private AsyncHttpClient asyncHttp;
     private FFJSONSerializer<T> serializer;
     private String resourceName;
     private FFRequestListener<T> requestResponse;
@@ -18,6 +18,7 @@ public class FFRestRequester<T extends FFObject>  implements FFRequester<T> {
         this.resourceName = resourceName;
         this.requestResponse = requestResponse;
         serializer =  new FFJSONSerializer<>(resourceName);
+        asyncHttp = new AsyncHttpClient();
 
         switch (FFAPIClient.sharedClient().getServerPattern()) {
             case NONE:
@@ -63,7 +64,7 @@ public class FFRestRequester<T extends FFObject>  implements FFRequester<T> {
         String url = this.urlBuilder.buildURL("findAll", this.resourceName);
         final FFRestRequester self = this;
 
-        this.asyncHttp.get(url, new JsonHttpResponseHandler() {
+        self.asyncHttp.get(url, new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(JSONObject jsonObject) {
                 ArrayList<T> response = (ArrayList<T>) self.serializer.serializePayload(jsonObject);
@@ -102,7 +103,7 @@ public class FFRestRequester<T extends FFObject>  implements FFRequester<T> {
 
         RequestParams params = this.serializer.deserialize(model);
 
-
+        System.out.println(params);
         this.asyncHttp.post(url, params, new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(JSONObject jsonObject) {

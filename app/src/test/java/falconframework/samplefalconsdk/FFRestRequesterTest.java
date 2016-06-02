@@ -32,7 +32,7 @@ public class FFRestRequesterTest extends AndroidTestCase {
     @Override
     protected void setUp() throws Exception {
         super.setUp();
-        apiSetting = new FFAPIClient("localhost:3000", "none", ServerPattern.JSONAPI);
+        apiSetting = new FFAPIClient("thawing-taiga-81502.herokuapp.com", "none", ServerPattern.JSONAPI);
         listenerImpl = new ListenerImpl();
         User user = new User();
 //        user.setName("Luis");
@@ -40,7 +40,7 @@ public class FFRestRequesterTest extends AndroidTestCase {
 //        user.setEmail("luis@gmail.com");
         expectedResults.add(user);
         user.setRequestResponse(listenerImpl);
-       // user.save();
+        user.save();
     }
 
     public void testDoAsync(){
