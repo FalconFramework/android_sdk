@@ -97,9 +97,11 @@ public class FFRestRequester<T extends FFObject>  implements FFRequester<T> {
     @Override
     public void createRecord(final T model) {
         String url = this.urlBuilder.buildURL("createRecord", this.resourceName);
+        System.out.println(url);
         final FFRestRequester self = this;
 
         RequestParams params = this.serializer.deserialize(model);
+
 
         this.asyncHttp.post(url, params, new JsonHttpResponseHandler() {
             @Override
