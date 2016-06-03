@@ -39,6 +39,9 @@ public class FFRestRequester<T extends FFObject>  implements FFRequester<T> {
     @Override
     public void findRecord(String id) {
         String url = this.urlBuilder.buildURL("findRecord", this.resourceName, id);
+        System.out.println("########################");
+        System.out.println(url);
+        System.out.println("########################");
         final FFRestRequester self = this;
         this.asyncHttp.get(url, new JsonHttpResponseHandler() {
             @Override
@@ -67,6 +70,9 @@ public class FFRestRequester<T extends FFObject>  implements FFRequester<T> {
         self.asyncHttp.get(url, new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(JSONObject jsonObject) {
+                System.out.println("#######################");
+                System.out.println(jsonObject.toString());
+                System.out.println("#######################");
                 ArrayList<T> response = (ArrayList<T>) self.serializer.serializePayload(jsonObject);
                 self.requestResponse.afterFindSuccess(response);
             }

@@ -65,19 +65,15 @@ import java.util.Objects;
         protected T serialize(JSONObject payload) {
             T newResource = this.newResourceInstance();
 
-            try {
-                payload = payload.getJSONObject(this.resourceName);
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-
             Iterator<?> keys = payload.keys();
 
             while(keys.hasNext()) {
                 String key = (String)keys.next();
                 try {
-                    Object value = payload.get(key);
-                    this.setFildToInstace(value, key, newResource);
+                    if (!payload.isNull(key)) {
+                        Object value = payload.get(key);
+                        this.setFildToInstace(value, key, newResource);
+                    }
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -89,8 +85,8 @@ import java.util.Objects;
         private Class<T> getResourceClass() {
             Class<T> resourceClass = null;
             try {
-                //String className = "falconframework.samplefalconsdk.Models." + this.capitalizedResourceName();
-                String className = "Models." + this.capitalizedResourceName();
+                String className = "falconframework.samplefalconsdk.Models." + this.capitalizedResourceName();
+//                String className = "Models." + this.capitalizedResourceName();
                 resourceClass = (Class<T>)Class.forName(className);
             } catch (ClassNotFoundException e) {
                 e.printStackTrace();

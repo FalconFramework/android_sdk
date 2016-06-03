@@ -40,10 +40,8 @@ public class FFJSONSerializerTest {
             userObject.put("name", "Luis");
             userObject.put("email", "luis@icloud.com");
             userObject.put("age", 21);
-            JSONObject userKey = new JSONObject();
-            userKey.put("user",userObject);
-           payloadArray.put(userKey);
-            payload.put("users",payloadArray);
+
+            payload.put("user",userObject);
         } catch (JSONException e) {
             e.printStackTrace();
         }

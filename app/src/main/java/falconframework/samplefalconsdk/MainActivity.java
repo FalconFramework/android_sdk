@@ -19,11 +19,8 @@ public class MainActivity extends AppCompatActivity implements FFRequestListener
         setContentView(R.layout.activity_main);
 
         //Set API settings
-        FFAPIClient apiSetting = new FFAPIClient("thawing-taiga-81502.herokuapp.com", "none", ServerPattern.JSONAPI);
+        FFAPIClient apiSetting = new FFAPIClient("192.168.0.12:4000", "none", ServerPattern.JSONAPI);
         User user = new User();
-        user.setName("Huallyd");
-        user.setAge(22);
-        user.setEmail("Huallyd@gmail.com");
         user.setRequestResponse(this);
         user.findAll();
         //user.save();
@@ -32,10 +29,10 @@ public class MainActivity extends AppCompatActivity implements FFRequestListener
     @Override
     public void afterFindSuccess(ArrayList<User> objects) {
         User u = objects.get(0);
-        u.setRequestResponse(this);
+
         System.out.println("######## Velho ##########");
         System.out.println(u.name);
-        u.delete();
+//        u.delete();
     }
 
     @Override

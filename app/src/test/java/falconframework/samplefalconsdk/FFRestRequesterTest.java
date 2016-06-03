@@ -43,28 +43,28 @@ public class FFRestRequesterTest extends AndroidTestCase {
         user.save();
     }
 
-    public void testDoAsync(){
-
-
-        user = new User();
-        user.setRequestResponse(listenerImpl);
-        user.setName("Luis");
-        user.setAge(21);
-        user.setEmail("luis@gmail.com");
-
-        mHandlerThread = new MyHandler("handlerThread");
-
-        semaphore = new Semaphore(0);
-        mHandlerThread.start();
-
-        try {
-            semaphore.acquire();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-        mHandlerThread.quit();
-        assertEquals(expectedResults, resultsCallback);
-    }
+//    public void testDoAsync(){
+//
+//
+//        user = new User();
+//        user.setRequestResponse(listenerImpl);
+//        user.setName("Luis");
+//        user.setAge(21);
+//        user.setEmail("luis@gmail.com");
+//
+//        mHandlerThread = new MyHandler("handlerThread");
+//
+//        semaphore = new Semaphore(0);
+//        mHandlerThread.start();
+//
+//        try {
+//            semaphore.acquire();
+//        } catch (InterruptedException e) {
+//            e.printStackTrace();
+//        }
+//        mHandlerThread.quit();
+//        assertEquals(expectedResults, resultsCallback);
+//    }
 
     private class MyHandler extends HandlerThread{
 
